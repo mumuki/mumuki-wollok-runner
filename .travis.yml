@@ -1,0 +1,4 @@
+language: ruby
+env: RACK_ENV=development
+rvm:
+ - jruby-19mode
