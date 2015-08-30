@@ -4,7 +4,7 @@ ruby '2.2.2', :engine => 'jruby', :engine_version => '9.0.0.0'
 
 gem 'rake'
 
-gem 'mumukit', github: 'mumuki/mumukit', branch: 'master'
+gem 'mumukit', github: 'mumuki/mumukit', tag: 'v0.7.1'
 gem 'mumukit-inspection', github: 'mumuki/mumukit-inspection', branch: 'master'
 
 gem 'puma'
