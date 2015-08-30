@@ -11,5 +11,5 @@ gem 'puma'
 
 group :test do
   gem 'rspec', '2.13'
-  gem 'mumukit-bridge', github: 'mumuki/mumukit-bridge', tag: 'v0.2.0'
+  gem 'mumukit-bridge', github: 'mumuki/mumukit-bridge', tag: 'v0.3.0'
 end

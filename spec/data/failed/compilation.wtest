@@ -1,0 +1,10 @@
+object foo {
+	var x = 1
+
+	method x() {
+		x
+	}
+}
+test "bar" {
+	assert.that(foo.x() == 4)
+}
