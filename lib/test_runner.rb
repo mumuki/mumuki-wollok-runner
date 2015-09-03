@@ -1,6 +1,6 @@
 class TestRunner < Mumukit::FileTestRunner
   def run_test_command(file)
-    "#{wollok_command} #{file} 2>&1"
+    "#{wollok_command} #{file.path} 2>&1"
   end
 
   def post_process_file(file, result, status)
