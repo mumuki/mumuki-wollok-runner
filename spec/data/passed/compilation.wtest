@@ -2,9 +2,9 @@ object foo {
 	var x = 1
 
 	method x() {
-		x
+		return 1
 	}
 }
 test "bar" {
-	assert.that(foo.x() == 1)
+	assert.equals(1, foo.x())
 }
