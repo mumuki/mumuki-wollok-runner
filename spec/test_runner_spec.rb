@@ -9,7 +9,7 @@ describe TestRunner do
       let(:result) { runner.run_test_file!(file) }
 
       it { expect(result[1]).to eq :failed }
-      it { expect(result[0]).to include 'There was 1 failure' }
+      it { expect(result[0]).to include 'AssertionException: Expected [4] but found [1]' }
     end
 
     context 'on passed submission' do
