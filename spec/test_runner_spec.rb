@@ -6,7 +6,7 @@ describe TestRunner do
   describe '#run' do
     context 'on failed submission' do
       let(:file) { 'spec/data/failed/compilation.wtest' }
-      let(:result) { runner.run_test_dir!(file) }
+      let(:result) { runner.run_test_file!(file) }
 
       it { expect(result[1]).to eq :failed }
       it { expect(result[0]).to include 'There was 1 failure' }
@@ -14,7 +14,7 @@ describe TestRunner do
 
     context 'on passed submission' do
       let(:file) { 'spec/data/passed/compilation.wtest' }
-      let(:result) { runner.run_test_dir!(file) }
+      let(:result) { runner.run_test_file!(file) }
 
       it { expect(result[1]).to eq :passed }
     end
