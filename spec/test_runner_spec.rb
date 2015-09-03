@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
 describe TestRunner do
-  let(:runner) { TestRunner.new('wollok_command' => '../.heroku/vendor/winterpreter.sh') }
+  let(:runner) { TestRunner.new('wollok_command' => '.heroku/vendor/wollok-standalone/bin/winterpreter.sh') }
 
   describe '#run' do
     context 'on failed submission' do
