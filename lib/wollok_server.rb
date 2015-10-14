@@ -5,4 +5,5 @@ require_relative './test_runner'
 
 Mumukit.configure do |config|
   config.command_size_limit = 10000
+  config.command_time_limit = 8
 end
