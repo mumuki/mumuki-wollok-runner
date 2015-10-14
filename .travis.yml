@@ -1,4 +1,11 @@
 language: ruby
 env: RACK_ENV=development
 rvm:
- - jruby-19mode
+- jruby-19mode
+deploy:
+  provider: heroku
+  api_key:
+    secure: M9P9F1feDwLXbfRCKgzmi/vmnKvomX0Ph3+O0G/QxK24XkHWibGgzWYzS6KWAtOHcnF0eg/HL2i/9fQyyK5b6Ksd/TbRfDoYku1oQRYriOTVFKx7RUHu14eE5qzZ5EQI9aKIt8rDZq/HtBA4uIa72riAcbjUaNvZQHVOWhQkPRstWSe+dMmIqr53jUgp1MhdPqsfP3pRxoJ86949LFBdTJnybMFRJyTxvYp3vygVJHx87vzN0LSXucemZ/JgSlgq+5T3jwW2nBzuQifR6WyotXUPNR4sXAz+G+grMpnU57fmY+KXgm2pavLP/6TMYlXgR9PHTkiclf/vAime2FN2jjvU62a3u4Y1dAyH4o80rGN3hHbBN3+zC6wlpQuEevf2G3SLzJSxZiw9d1e4fIuDNpsSL2iVkpDGqsIXfpWQncpdRxOY8zfDzQFtJipBdZmFtjDvPu+7Ms3ot8QorExu8kmcb1sJ1Mgy8s2Hj2kVBDb/JuiHxe1plsZTsGDS9W6AXjoroUZluPXKOwCz+2gkoIIQwcVaZBHUoE85P6Lx27kbpTKS3Mcr6S96a4ORemENXMoWv2/ZkFdfoG84iR/R3drFnLA/0OA2Dpwp6lFPEY+HwIRrWDtODKHYCUMNjyok2dZ9cLbvQpd6hPFHQ62OW5SE+7CUTrJX++6hdAZCbGo=
+  app: mumuki-wollok-server
+  on:
+    repo: mumuki/mumuki-wollok-server
