@@ -1,7 +1,5 @@
 language: ruby
-env:
-  - JRUBY_OPTS="--server -J-Xms1500m -J-Xmx1500m -J-XX:+UseConcMarkSweepGC -J-XX:-UseGCOverheadLimit -J-XX:+CMSClassUnloadingEnabled"
-  - RACK_ENV=development
+env: JRUBY_OPTS="--server -J-Xms1500m -J-Xmx1500m -J-XX:+UseConcMarkSweepGC -J-XX:-UseGCOverheadLimit -J-XX:+CMSClassUnloadingEnabled"  RACK_ENV=development
 rvm:
 - jruby-9.0.0.0
 deploy:
