@@ -1,7 +1,7 @@
 language: ruby
 env: JRUBY_OPTS="--server -J-Xms1500m -J-Xmx1500m -J-XX:+UseConcMarkSweepGC -J-XX:-UseGCOverheadLimit -J-XX:+CMSClassUnloadingEnabled"  RACK_ENV=development
 rvm:
-- jruby-9.0.0.0
+- jruby-9.0.1.0
 deploy:
   provider: heroku
   api_key:
