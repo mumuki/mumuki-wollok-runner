@@ -80,7 +80,6 @@ DEPENDENCIES
   puma
   rake
   rspec (= 2.13)
-  thread_safe
 
 BUNDLED WITH
    1.10.6
