@@ -16,13 +16,15 @@ GIT
 
 GIT
   remote: git://github.com/mumuki/mumukit.git
-  revision: ef9f5913721a666ebef68efb97b2241e5841c6e9
-  branch: master
+  revision: 65e8080d4ab6ca72d3de85ab88d57e5ca8d63bd2
+  tag: v0.8.0
   specs:
-    mumukit (0.7.2)
+    mumukit (0.8.0)
       activesupport
+      docker-api (~> 1.22.2)
       i18n (~> 0.7)
       sinatra (~> 1.4)
+      thin
 
 GEM
   remote: https://rubygems.org/
@@ -33,9 +35,16 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    daemons (1.2.3)
     diff-lcs (1.2.5)
+    docker-api (1.22.4)
+      excon (>= 0.38.0)
+      json
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
+    eventmachine (1.0.8)
+    eventmachine (1.0.8-java)
+    excon (0.45.4)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -66,6 +75,10 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
+    thin (1.6.4)
+      daemons (~> 1.0, >= 1.0.9)
+      eventmachine (~> 1.0, >= 1.0.4)
+      rack (~> 1.0)
     thread_safe (0.3.5)
     thread_safe (0.3.5-java)
     tilt (2.0.1)
