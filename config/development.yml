@@ -1,1 +1,1 @@
-wollok_command: '.heroku/vendor/wollok-standalone/bin/winterpreter.sh'
+wollok_command: 'wdk/bin/winterpreter.sh'

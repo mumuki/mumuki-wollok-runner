@@ -1,5 +1,7 @@
 class TestRunner < Mumukit::FileTestRunner
-  def run_test_command(file)
+  include Mumukit::WithIsolatedEnvironment
+
+  def run_test_command(filename)
     "#{wollok_command} #{file.path} 2>&1"
   end
 
