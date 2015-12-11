@@ -53,8 +53,6 @@ GEM
     mime-types (2.6.1)
     minitest (5.8.3)
     netrc (0.10.3)
-    puma (2.13.4)
-    puma (2.13.4-java)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -97,7 +95,6 @@ DEPENDENCIES
   mumukit!
   mumukit-bridge!
   mumukit-inspection!
-  puma
   rake
   rspec (= 2.13)
 
