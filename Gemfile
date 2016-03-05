@@ -1,15 +1,13 @@
 source 'https://rubygems.org'
 
-ruby '2.2.2', :engine => 'jruby', :engine_version => '9.0.1.0'
-
 gem 'rake'
 
-gem 'mumukit', github: 'mumuki/mumukit', branch: :master
+gem 'mumukit', github: 'mumuki/mumukit', tag: 'v1.1.0'
 gem 'mumukit-inspection', github: 'mumuki/mumukit-inspection', branch: 'master'
+gem 'mumukit-content-type', github: 'mumuki/mumukit-content-type', branch: 'master'
 
-gem 'puma'
 
 group :test do
   gem 'rspec', '2.13'
-  gem 'mumukit-bridge', github: 'mumuki/mumukit-bridge', tag: 'v0.3.0'
+  gem 'mumukit-bridge', github: 'mumuki/mumukit-bridge', tag: 'v1.0.1'
 end

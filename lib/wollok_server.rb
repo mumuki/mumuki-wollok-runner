@@ -1,9 +1,8 @@
 require 'mumukit'
 
-require_relative './test_compiler'
-require_relative './test_runner'
-
 Mumukit.configure do |config|
-  config.command_size_limit = 10000
-  config.command_time_limit = 8
+  config.docker_image = 'mumuki/mumuki-wollok-worker'
 end
+
+require_relative './test_hook'
+require_relative './metadata_hook'
