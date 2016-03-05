@@ -8,5 +8,7 @@ services:
 before_install:
 - docker pull mumuki/mumuki-wollok-worker
 after_success:
-- wget https://raw.githubusercontent.com/mumuki/mumuki-escualo/master/travis_deploy && chmod u+x travis_deploy && ./travis_deploy wollok 162.243.111.176
+- wget https://raw.githubusercontent.com/mumuki/mumuki-escualo/master/travis_deploy &&
+  chmod u+x travis_deploy &&
+  ./travis_deploy wollok runners2.mumuki.io
 
