@@ -6,7 +6,11 @@ class QueryHook < Mumukit::Templates::FileHook
   end
 
   def compile_file_content(r)
-    "#{r.extra}\n#{r.content}\nprogram mumuki { console.println('=> ' + (#{r.query}).toString()) }"
+    "#{r.extra}\n#{r.content}\nprogram mumuki {  #{build_state(r.cookie)}  console.println('=> ' + (#{r.query}).toString()) }"
+  end
+
+  def build_state(cookie)
+    cookie.map { |statement| "try { #{statement} } catch(Exception e) {  }" }.join("\n")
   end
 
   def command_line(filename)
