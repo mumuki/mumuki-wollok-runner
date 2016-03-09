@@ -10,7 +10,10 @@ describe QueryHook do
     let(:okQuery) { 'pepita.energia()' }
 
     let(:request) { qreq(okCode, okQuery) }
-    it { expect(result).to eq ["=> 2\n", :passed] }
+    it do
+      expect(result[1]).to eq :passed
+      expect(result[0]).to include "=> 2\n"
+    end
   end
 
   describe 'should pass on ok request with cookie' do
@@ -19,7 +22,10 @@ describe QueryHook do
     let(:cookie) { ['var x = 1', 'x += 1', 'x += 1'] }
 
     let(:request) { qreq(okCode, okQuery, '', cookie) }
-    it { expect(result).to eq ["=> 3\n", :passed] }
+    it do
+      expect(result[1]).to eq :passed
+      expect(result[0]).to include "=> 3\n"
+    end
   end
 
   describe 'should pass on ok request with cookie that fails' do
@@ -28,7 +34,11 @@ describe QueryHook do
     let(:cookie) { ['var x = 1', 'throw new Exception(\'ups\')', 'x += 1'] }
 
     let(:request) { qreq(okCode, okQuery, '', cookie) }
-    it { expect(result).to eq ["=> 2\n", :passed] }
+    it do
+      expect(result[1]).to eq :passed
+      expect(result[0]).to include "=> 2\n"
+    end
+
   end
 
   describe 'should pass on ok request with query dependent on extra' do
@@ -37,7 +47,10 @@ describe QueryHook do
     let(:okExtra) { 'object pepita {}' }
 
     let(:request) { qreq(okCode, okQuery, okExtra) }
-    it { expect(result).to eq ["=> true\n", :passed] }
+    it do
+      expect(result[1]).to eq :passed
+      expect(result[0]).to include "=> true\n"
+    end
   end
 end
 
