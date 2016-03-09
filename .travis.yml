@@ -1,14 +1,18 @@
 nguage: ruby
-env: RACK_ENV=development
+env:
+  matrix:
+  - RACK_ENV=development
+  global:
+    secure: K0FxGsLnqatZM/KyQuLBB5KH/Q2g1u1GiGI+7dKvTnhp7AFbFh4UxoVo6jtMW4AhrhstNP1lD3p5aSJxpmw3PVgessIa6lT/xDnmRRG2+TFJMPdHOkXCbSv3l+9NhMWR2aZh0hojzorWBLw4rDdRZEPSG3dvz2V9Uqhxaxbml48WZ021+3tXBBsSrsHt3xAf4XYQDbMDLHU84DmYWM6HbitMJjq0lAfxhIPoQRvB4Q4uLZ7ItcH841Q5IrYJnF34kfUvDKC93KShIsf9WQWvD5NJoYA57YLnrSb8173EqsLYSc5nPPHn5WeK5cDk2/2trVqB5KEKM7tW/PEwVeihuK2eDuc6uz8ZA6PxoqTkV6Wy/Go/nq23KqNtdKf6QHh92/QFHLx1pARMX+9LC7mkgeST8+oe0FLTt6adAFVjMBDfOjd7GOF12nyTa6jYWCYV78brDvOauBqvQ5ILfYRjyroDSjYlRu5CYRwqErDeX5YoXB+Ncc/PCTmcKDzQ6YgyepkrgK1AqeCa2wHB4QVWRBmaGgsYY7Ee+ANw4m8X3cctY3gYKGFjX783fD2D/qM+sYmCQcc2tPn7qnFyWEMurbRTb/YSfcDmLy+uZkrp46YsRMluyaUK7lQKUVcSE5YYxfqsvTzcN4QiSc+MMzuvyj/LDnNWYFvLyHsBiDwPFf0=
 sudo: false
 rvm:
 - 2.0.0
 services:
 - docker
 before_install:
+- openssl aes-256-cbc -K $encrypted_e9ad5622573d_key -iv $encrypted_e9ad5622573d_iv
+  -in escualo_rsa.enc -out escualo_rsa -d
 - docker pull mumuki/mumuki-wollok-worker
 after_success:
-- wget https://raw.githubusercontent.com/mumuki/mumuki-escualo/master/travis_deploy &&
-  chmod u+x travis_deploy &&
-  ./travis_deploy wollok runners2.mumuki.io
-
+- wget https://raw.githubusercontent.com/mumuki/mumuki-escualo-deploy/master/travis_deploy && chmod u+x travis_deploy
+- ./travis_deploy wollok
