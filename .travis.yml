@@ -1,4 +1,4 @@
-nguage: ruby
+language: ruby
 env:
   matrix:
   - RACK_ENV=development
