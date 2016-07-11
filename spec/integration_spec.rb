@@ -21,8 +21,8 @@ object foo {
   }
 }}, expectations: [])
 
-    expect(response[:status]).to eq(:passed)
     expect(response[:response_type]).to eq(:unstructured)
+    expect(response[:status]).to eq(:passed)
   end
 
 
