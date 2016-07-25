@@ -1,11 +1,19 @@
-class QueryHook < Mumukit::Templates::FileHook
-  isolated true
+require 'rest-client'
 
-  def tempfile_extension
-    '.wpgm'
+class WollokQueryHook < WollokHook
+  def transform_response(response)
+    if response['consoleOutput'].present?
+      [response['consoleOutput'] || '', :passed]
+    elsif response['runtimeError'].present?
+      [response['runtimeError']['message'], :failed]
+    end
   end
 
-  def compile_file_content(r)
+  def program_type
+    'wpgm'
+  end
+
+  def compile_program(r)
 <<WLK
 #{r.extra}
 #{r.content}
@@ -18,21 +26,5 @@ WLK
 
   def build_state(cookie)
     (cookie||[]).map { |statement| "try { #{statement} } catch e : Exception {  }" }.join("\n")
-  end
-
-  def command_line(filename)
-    "#{wollok_command} #{filename} 2>&1"
-  end
-
-  def post_process_file(file, result, status)
-    [remove_warnings(result), status]
-  end
-
-  def remove_warnings(result)
-    result.
-        split("\n").
-        reject { |it| it.start_with?('Warning: ') || it.include?('WARNING Unused variable') }.
-        map { |it| "#{it}\n" }.
-        join
   end
 end

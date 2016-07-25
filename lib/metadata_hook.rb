@@ -1,8 +1,8 @@
-class MetadataHook < Mumukit::Hook
+class WollokMetadataHook < Mumukit::Hook
   def metadata
     {language: {
         name: 'wollok',
-        icon: {type: 'devicon', name: 'haskell'},
+        icon: {type: 'devicon', name: 'code'},
         version: '1.3',
         extension: 'wlk',
         ace_mode: 'wollok'

@@ -1,20 +1,37 @@
-class TestHook < Mumukit::Templates::FileHook
-  mashup
-  isolated true
+class WollokTestHook < WollokHook
 
-  def command_line(filename)
-    "#{wollok_command} #{filename} 2>&1"
-  end
-
-  def post_process_file(file, result, status)
-    if result.include? 'wollok.lang.Exception'
-      [result, :failed]
+  def transform_response(result)
+    if result['tests'].present?
+      [result['tests'].map { |it| transform_test_result(it) }]
+    elsif result['runtimeErrors'].present?
+      [result['runtimeErrors'].to_s, :failed]
+    elsif result['compilation']['issues'].present?
+      [result['compilation']['issues'].map { |it| transform_compilation_error(it) }.join("\n"), :errored]
+    elsif result['consoleOutput'].present?
+      [result['consoleOutput'] || '', :failed]
     else
-      super
+      [result.to_s, :errored]
     end
   end
 
-  def tempfile_extension
-    '.wtest'
+  def transform_compilation_error(issue)
+    "#{issue['severity']}: #{issue['message']}"
   end
+
+  def transform_test_result(result)
+    [result['name'], result['state'] == 'passed' ? :passed : :failed, result['error'].try{|i|i['stackTrace']}]
+  end
+
+  def program_type
+    'wtest'
+  end
+
+  def compile_program(r)
+    <<WLK
+#{r.extra}
+#{r.content}
+#{r.test}
+WLK
+  end
+
 end
