@@ -1,16 +1,19 @@
 require 'rest-client'
 
-class WollokQueryHook < Mumukit::Hook
-  def run!(request)
-    result = RestClient.post('ec2-52-38-24-64.us-west-2.compute.amazonaws.com:8080/run', request)
-    if  result['runtimeErrors'].present?
-      [result['runtimeErrors'], :failed]
-    else
-      [result['console'], :passed]
+class WollokQueryHook < WollokHook
+  def transform_response(response)
+    if response['consoleOutput'].present?
+      [response['consoleOutput'] || '', :passed]
+    elsif response['runtimeError'].present?
+      [response['runtimeError']['message'], :failed]
     end
   end
 
-  def compile(r)
+  def program_type
+    'wpgm'
+  end
+
+  def compile_program(r)
 <<WLK
 #{r.extra}
 #{r.content}

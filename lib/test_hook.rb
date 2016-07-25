@@ -1,15 +1,33 @@
-class WollokTestHook < Mumukit::Hook
-  def run!(request)
-    result = RestClient.post('ec2-52-38-24-64.us-west-2.compute.amazonaws.com:8080/run', request)
-    if  result['runtimeErrors'].present?
-      [result['runtimeErrors'], :failed]
+class WollokTestHook < WollokHook
+
+  def transform_response(result)
+    if result['tests'].present?
+      [result['tests'].map { |it| transform_test_result(it) }]
+    elsif result['runtimeErrors'].present?
+      [result['runtimeErrors'].to_s, :failed]
+    elsif result['compilation']['issues'].present?
+      [result['compilation']['issues'].map { |it| transform_compilation_error(it) }.join("\n"), :errored]
+    elsif result['consoleOutput'].present?
+      [result['consoleOutput'] || '', :failed]
     else
-      [result['console'] || '', :passed]
+      [result.to_s, :errored]
     end
   end
 
-  def compile(r)
-<<WLK
+  def transform_compilation_error(issue)
+    "#{issue['severity']}: #{issue['message']}"
+  end
+
+  def transform_test_result(result)
+    [result['name'], result['state'] == 'passed' ? :passed : :failed, result['error'].try{|i|i['stackTrace']}]
+  end
+
+  def program_type
+    'wtest'
+  end
+
+  def compile_program(r)
+    <<WLK
 #{r.extra}
 #{r.content}
 #{r.test}
