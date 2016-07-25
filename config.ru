@@ -7,4 +7,6 @@ I18n.load_path += Dir[File.join('.', 'locales', '*.yml')]
 
 require_relative 'lib/wollok_server'
 
+require 'mumukit/server/app'
+
 run Mumukit::Server::App
