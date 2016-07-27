@@ -17,9 +17,19 @@ class WollokQueryHook < WollokHook
 <<WLK
 #{r.extra}
 #{r.content}
+object mumukiPrettyPrinter {
+  method prettyPrint(anObject) {
+    if (anObject != null && anObject != void)
+      console.println('=> '  + anObject.toString())
+    else
+      console.println('=>')
+  }
+
+}
+
 program mumuki {
   #{build_state(r.cookie)}
-  console.println('=> ' + (#{r.query}).toString())
+  mumukiPrettyPrinter.prettyPrint(#{r.query})
 }
 WLK
   end

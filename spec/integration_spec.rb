@@ -17,6 +17,22 @@ describe 'Server' do
     expect(response[:result]).to include '=> 4'
   end
 
+  it 'supports queries that return void' do
+    response = bridge.run_query!(query: 'void', extra: '', content: '', expectations: [])
+
+    expect(response[:status]).to eq(:passed)
+    expect(response[:result]).to eq "=>\n"
+  end
+
+
+  it 'supports queries that return null' do
+    response = bridge.run_query!(query: 'null', extra: '', content: 'object x { method y() = 3 }', expectations: [])
+
+    expect(response[:status]).to eq(:passed)
+    expect(response[:result]).to eq "=>\n"
+  end
+
+
   it 'supports queries with runtime errors' do
     response = bridge.run_query!(query: 'x.y() + 1', extra: '', content: 'object x { method y() = true }', expectations: [])
 
