@@ -27,11 +27,17 @@ class WollokTestHook < WollokHook
   end
 
   def compile_program(r)
-    <<WLK
+    Interpolator.new.try_interpolate(
+        :test,
+        test: r.test,
+        content: r.content,
+        extra: r.extra) do
+      <<WLK
 #{r.extra}
 #{r.content}
 #{r.test}
 WLK
+    end
   end
 
 end
