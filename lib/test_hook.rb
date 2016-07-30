@@ -26,18 +26,12 @@ class WollokTestHook < WollokHook
     'wtest'
   end
 
-  def compile_program(r)
-    Interpolator.new.try_interpolate(
-        :test,
-        test: r.test,
-        content: r.content,
-        extra: r.extra) do
-      <<WLK
+  def compile_program_after_directives(r)
+    <<WLK
 #{r.extra}
 #{r.content}
 #{r.test}
 WLK
-    end
   end
 
 end

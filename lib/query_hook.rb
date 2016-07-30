@@ -13,8 +13,7 @@ class WollokQueryHook < WollokHook
     'wpgm'
   end
 
-  def compile_program(r)
-    r = OpenStruct.new Flags.new.transform(r.to_h)
+  def compile_program_after_directives(r)
 <<WLK
 #{r.extra}
 #{r.content}
