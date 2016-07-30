@@ -3,7 +3,7 @@ class WollokMetadataHook < Mumukit::Hook
     {language: {
         name: 'wollok',
         icon: {type: 'devicon', name: 'code'},
-        version: '1.3',
+        version: '1.5',
         extension: 'wlk',
         ace_mode: 'wollok'
     },
