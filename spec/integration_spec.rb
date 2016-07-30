@@ -42,6 +42,16 @@ describe 'Server' do
     expect(response[:result]).to eq "=> x[y=2]\n"
   end
 
+  it 'supports queries with cookie and console' do
+    response = bridge.run_query!(query: 'x.m()',
+                                 extra: 'object x { method m() { mumukiConsole.println("hello") } } ',
+                                 content: '',
+                                 cookie: ['x.m()', 'x.m()'])
+
+    expect(response[:status]).to eq(:passed)
+    expect(response[:result]).to eq "hello\n=>\n"
+  end
+
   it 'supports queries with runtime errors' do
     response = bridge.run_query!(query: 'x.y() + 1', extra: '', content: 'object x { method y() = true }', expectations: [])
 

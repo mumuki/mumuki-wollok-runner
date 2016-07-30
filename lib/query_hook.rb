@@ -24,11 +24,26 @@ object mumukiPrettyPrinter {
     else
       console.println('=>')
   }
+}
 
+object mumukiConsole {
+  var inCookie = false
+
+  method enterCookie() { inCookie = true }
+  method exitCookie() { inCookie = false }
+
+  method println(anObject) {
+    if (!inCookie) {
+       console.println(anObject)
+    }
+  }
 }
 
 program mumuki {
+  mumukiConsole.enterCookie()
   #{build_state(r.cookie)}
+  mumukiConsole.exitCookie()
+
   mumukiPrettyPrinter.prettyPrint(#{r.query})
 }
 WLK
