@@ -14,6 +14,7 @@ class WollokQueryHook < WollokHook
   end
 
   def compile_program(r)
+    r = OpenStruct.new Flags.new.transform(r.to_h)
 <<WLK
 #{r.extra}
 #{r.content}
