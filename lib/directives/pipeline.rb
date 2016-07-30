@@ -4,10 +4,13 @@ class Directives::Pipeline
   end
 
   def transform(request)
-    base_sections = {'test' => request.test,
-                     'extra' => request.extra,
-                     'content' => request.content,
-                     'query' => request.query}
-    OpenStruct.new @directives.inject(base_sections) { |sections, it| it.transform(sections) }
+    base_sections = request.to_stringified_h
+    rest = base_sections.slice!('test', 'extra', 'content', 'query')
+
+    @directives
+        .inject(base_sections) { |sections, it| it.transform(sections) }
+        .amend(rest)
+        .to_struct
   end
 end
+    

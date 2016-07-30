@@ -32,6 +32,15 @@ describe 'Server' do
     expect(response[:result]).to eq "=>\n"
   end
 
+  it 'supports queries with cookie' do
+    response = bridge.run_query!(query: 'x',
+                                 extra: 'object x { var y = 0; method m() = y++ }',
+                                 content: '',
+                                 cookie: ['x.m()', 'x.m()'])
+
+    expect(response[:status]).to eq(:passed)
+    expect(response[:result]).to eq "=> x[y=2]\n"
+  end
 
   it 'supports queries with runtime errors' do
     response = bridge.run_query!(query: 'x.y() + 1', extra: '', content: 'object x { method y() = true }', expectations: [])
