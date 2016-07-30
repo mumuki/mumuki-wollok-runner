@@ -2,6 +2,7 @@ require 'mumukit'
 
 Mumukit.runner_name = 'wollok'
 Mumukit.configure do |config|
+  config.stateful = true
 end
 
 require_relative '../lib/directives'
