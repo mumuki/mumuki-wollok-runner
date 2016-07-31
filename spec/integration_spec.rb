@@ -17,6 +17,13 @@ describe 'Server' do
     expect(response[:result]).to include '=> 4'
   end
 
+  it 'supports queries that don\'t compile' do
+    response = bridge.run_query!(query: 'bleh', extra: '', content: '', expectations: [])
+
+    expect(response[:status]).to eq(:failed)
+    expect(response[:result]).to include "ERROR: Couldn't resolve reference to Referenciable 'bleh'."
+  end
+
   it 'supports queries that return void' do
     response = bridge.run_query!(query: 'void', extra: '', content: '', expectations: [])
 
@@ -90,7 +97,7 @@ object foo {
     expect(response[:status]).to eq(:failed)
     expect(response[:test_results]).to eq [{title: 'foo.bar() is 6',
                                             status: :failed,
-                                            result: "wollok.lang.Exception: Expected [5] but found [6]\n\tat wollok.lib.assert.equals(expected,actual) [/lib.wlk:47]\n\tat  [__synthetic0.wtest]\n"}]
+                                            result: "wollok.lang.Exception: Expected [5] but found [6]\n\tat wollok.lib.assert.equals(expected,actual) [/lib.wlk:61]\n\tat  [__synthetic0.wtest]\n"}]
   end
 
   it 'answers a valid hash when submission has compilation errors' do

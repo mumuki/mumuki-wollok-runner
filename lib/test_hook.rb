@@ -6,16 +6,12 @@ class WollokTestHook < WollokHook
     elsif result['runtimeErrors'].present?
       [result['runtimeErrors'].to_s, :failed]
     elsif result['compilation']['issues'].present?
-      [result['compilation']['issues'].map { |it| transform_compilation_error(it) }.join("\n"), :errored]
+      [extract_compilation_errors(result), :errored]
     elsif result['consoleOutput'].present?
       [result['consoleOutput'] || '', :failed]
     else
       [result.to_s, :errored]
     end
-  end
-
-  def transform_compilation_error(issue)
-    "#{issue['severity']}: #{issue['message']}"
   end
 
   def transform_test_result(result)

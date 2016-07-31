@@ -23,4 +23,12 @@ class WollokHook < Mumukit::Hook
                                             Directives::Interpolations.new('extra'),
                                             Directives::Flags.new]
   end
+
+  def extract_compilation_errors(response)
+    response['compilation']['issues'].map { |it| transform_compilation_error(it) }.join("\n")
+  end
+
+  def transform_compilation_error(issue)
+    "#{issue['severity']}: #{issue['message']}"
+  end
 end

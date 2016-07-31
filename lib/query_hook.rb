@@ -3,9 +3,11 @@ require 'rest-client'
 class WollokQueryHook < WollokHook
   def transform_response(response)
     if response['consoleOutput'].present?
-      [response['consoleOutput'] || '', :passed]
+      [response['consoleOutput'], :passed]
     elsif response['runtimeError'].present?
       [response['runtimeError']['message'], :failed]
+    elsif response['compilation'].present?
+      [extract_compilation_errors(response), :failed]
     end
   end
 
