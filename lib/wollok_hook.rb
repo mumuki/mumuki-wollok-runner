@@ -24,8 +24,22 @@ class WollokHook < Mumukit::Hook
                                             Directives::Flags.new]
   end
 
+  def errored?(response)
+    response['compilation'] && response['compilation']['issues'].any? do |issue|
+      compilation_error? issue
+    end
+  end
+
   def extract_compilation_errors(response)
-    response['compilation']['issues'].map { |it| transform_compilation_error(it) }.join("\n")
+    response['compilation']['issues']
+        .select { |it| compilation_error? it  }
+        .map { |it| transform_compilation_error(it) }
+        .join("\n")
+  end
+
+  def compilation_error?(issue)
+    %w(org.eclipse.xtext.diagnostics.Diagnostic.Syntax
+       org.eclipse.xtext.diagnostics.Diagnostic.Linking).include? issue['code']
   end
 
   def transform_compilation_error(issue)

@@ -5,7 +5,7 @@ class WollokTestHook < WollokHook
       [result['tests'].map { |it| transform_test_result(it) }]
     elsif result['runtimeErrors'].present?
       [result['runtimeErrors'].to_s, :failed]
-    elsif result['compilation']['issues'].present?
+    elsif errored? result
       [extract_compilation_errors(result), :errored]
     elsif result['consoleOutput'].present?
       [result['consoleOutput'] || '', :failed]

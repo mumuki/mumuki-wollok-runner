@@ -14,14 +14,21 @@ describe 'Server' do
     response = bridge.run_query!(query: 'x.y() + 1', extra: '', content: 'object x { method y() = 3 }', expectations: [])
 
     expect(response[:status]).to eq(:passed)
-    expect(response[:result]).to include '=> 4'
+    expect(response[:result]).to eq "=> 4\n"
   end
 
   it 'supports queries that don\'t compile' do
     response = bridge.run_query!(query: 'bleh', extra: '', content: '', expectations: [])
 
-    expect(response[:status]).to eq(:failed)
-    expect(response[:result]).to include "ERROR: Couldn't resolve reference to Referenciable 'bleh'."
+    expect(response[:status]).to eq(:errored)
+    expect(response[:result]).to eq "ERROR: Couldn't resolve reference to Referenciable 'bleh'."
+  end
+
+  it 'supports queries that don\'t compile but could execute' do
+    response = bridge.run_query!(query: 'foo.bar', extra: 'object foo { }', content: '', expectations: [])
+
+    expect(response[:status]).to eq(:errored)
+    expect(response[:result]).to eq "ERROR: no viable alternative at input ')'"
   end
 
   it 'supports queries that return void' do
@@ -31,6 +38,12 @@ describe 'Server' do
     expect(response[:result]).to eq "=>\n"
   end
 
+  it 'supports queries that do not produce a value' do
+    response = bridge.run_query!(query: 'f.m()', extra: '', content: 'object f { var z = 1 method m() { z -= 1 } }', expectations: [])
+
+    expect(response[:status]).to eq(:passed)
+    expect(response[:result]).to eq "=>\n"
+  end
 
   it 'supports queries that return null' do
     response = bridge.run_query!(query: 'null', extra: '', content: 'object x { method y() = 3 }', expectations: [])
@@ -63,7 +76,7 @@ describe 'Server' do
     response = bridge.run_query!(query: 'x.y() + 1', extra: '', content: 'object x { method y() = true }', expectations: [])
 
     expect(response[:status]).to eq(:failed)
-    expect(response[:result]).to include 'true does not understand +'
+    expect(response[:result]).to eq 'true does not understand +(p0)'
   end
 
   it 'answers a valid hash when submission passes' do
@@ -113,7 +126,7 @@ object foo {
 
     expect(response[:response_type]).to eq(:unstructured)
     expect(response[:status]).to eq(:errored)
-    expect(response[:result]).to include "ERROR: missing EOF at 'tes'"
+    expect(response[:result]).to eq "ERROR: missing EOF at 'tes'"
   end
 
   it 'answers a valid hash when submission has runtime errors' do
