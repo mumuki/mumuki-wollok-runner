@@ -22,7 +22,7 @@ class WollokTestHook < WollokHook
     'wtest'
   end
 
-  def compile_program_after_directives(r)
+  def compile_program(r)
     <<WLK
 #{r.extra}
 #{r.content}
