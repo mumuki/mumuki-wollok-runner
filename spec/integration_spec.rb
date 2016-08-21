@@ -17,6 +17,20 @@ describe 'Server' do
     expect(response[:result]).to eq "=> 4\n"
   end
 
+  it 'supports queries that declare vars' do
+    response = bridge.run_query!(query: 'var x = 1', extra: '', content: '', expectations: [])
+
+    expect(response[:status]).to eq(:passed)
+    expect(response[:result]).to eq "=>\n"
+  end
+
+  it 'supports queries that uses vars' do
+    response = bridge.run_query!(query: 'x', extra: '', content: '', expectations: [], cookie: ['var x = 1'])
+
+    expect(response[:status]).to eq(:passed)
+    expect(response[:result]).to eq "=> 1\n"
+  end
+
   it 'supports queries that don\'t compile' do
     response = bridge.run_query!(query: 'bleh', extra: '', content: '', expectations: [])
 

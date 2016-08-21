@@ -48,7 +48,13 @@ program mumuki {
   #{build_state(r.cookie)}
   mumukiConsole.exitCookie()
 
-  mumukiPrettyPrinter.prettyPrint(#{r.query})
+  #{
+    if %w(var const).any? { |it| r.query.strip.start_with? it }
+      "#{r.query}\nmumukiPrettyPrinter.prettyPrint(void)"
+    else
+      "mumukiPrettyPrinter.prettyPrint(#{r.query})"
+    end
+  }
 }
 WLK
   end
