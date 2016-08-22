@@ -154,8 +154,49 @@ object foo {
   }
 }}, expectations: [])
 
-    expect(response[:response_type]).to eq(:structured)
-    expect(response[:test_results][0][:result]).to include 'org.uqbar.project.wollok.interpreter.WollokInterpreterException'
+    expect(response).to eq response_type: :unstructured,
+                           test_results: [],
+                           status: :errored,
+                           feedback: '',
+                           expectation_results: [],
+                           result: "ERROR: Couldn't resolve reference to Referenciable 'asser'."
   end
 
+  it 'answers a valid hash when submission has attributes syntax errors' do
+    response = bridge.run_tests!(test: %q{
+test "foo.bar() is 5" {
+  asser.equals(5, foo.bar())
+}}, extra: '', content: %q{
+object foo {
+  x = 5
+  method bar() {
+    return 5
+  }
+}}, expectations: [])
+
+    expect(response).to eq response_type: :unstructured,
+                           test_results: [],
+                           status: :errored,
+                           feedback: '',
+                           expectation_results: [],
+                           result: "ERROR: mismatched input 'x' expecting '}'\nERROR: Couldn't resolve reference to Referenciable 'asser'."
+  end
+
+  it 'answers a valid hash when submission has methods compile errors' do
+    response = bridge.run_tests!(test: %q{
+test "foo.bar() is 5" {
+  asser.equals(5, foo.bar())
+}}, extra: '', content: '
+object foo {
+  method bar() {
+    return 5
+}', expectations: [])
+
+    expect(response).to eq response_type: :unstructured,
+                           test_results: [],
+                           status: :errored,
+                           feedback: '',
+                           expectation_results: [],
+                           result: "ERROR: missing '}' at 'test'\nERROR: Couldn't resolve reference to Referenciable 'asser'."
+  end
 end
