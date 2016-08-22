@@ -24,6 +24,12 @@ class WollokTestHook < WollokHook
 
   def compile_program(r)
     <<WLK
+object mumukiConsole {
+  method println(anObject) {
+     console.println(anObject)
+  }
+}
+
 #{r.extra}
 #{r.content}
 #{r.test}
