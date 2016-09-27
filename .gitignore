@@ -1,3 +1,4 @@
 .idea
 **/*.class
 hs_*.log
+Gemfile.lock
