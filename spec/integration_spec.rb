@@ -76,6 +76,27 @@ describe 'Server' do
     expect(response[:result]).to eq "=> x[y=2]\n"
   end
 
+  it 'supports queries with cookie and exceptions' do
+    response = bridge.run_query!(query: 'x',
+                                 extra: '',
+                                 content: '',
+                                 cookie: ['var x = 1', 'x += 2', 'throw new Exception()', 'x += 1'])
+
+    expect(response[:status]).to eq(:passed)
+    expect(response[:result]).to eq "=> 4\n"
+  end
+
+  it 'supports queries with cookie and exceptions thrown with error object' do
+    response = bridge.run_query!(query: 'x',
+                                 extra: '',
+                                 content: '',
+                                 cookie: ['var x = 1', 'x += 2', 'error.throwWithMessage("foo")', 'x += 1'])
+
+    expect(response).to eq(:failed)
+    expect(response[:result]).to eq "=> 4\n"
+  end
+
+
   it 'supports queries with cookie and console' do
     response = bridge.run_query!(query: 'x.m()',
                                  extra: 'object x { method m() { mumukiConsole.println("hello") } } ',
