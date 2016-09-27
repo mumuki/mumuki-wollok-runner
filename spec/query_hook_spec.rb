@@ -1,4 +1,4 @@
-require_relative '../lib/wollok_server'
+require_relative '../lib/wollok_runner'
 
 describe WollokQueryHook do
   let(:hook) { WollokQueryHook.new }
