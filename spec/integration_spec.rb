@@ -86,7 +86,7 @@ describe 'Server' do
     expect(response[:result]).to eq "=> 4\n"
   end
 
-  it 'supports queries with cookie and exceptions thrown with error object' do
+  pending 'supports queries with cookie and exceptions thrown with error object' do
     response = bridge.run_query!(query: 'x',
                                  extra: '',
                                  content: '',
@@ -95,7 +95,6 @@ describe 'Server' do
     expect(response).to eq(:failed)
     expect(response[:result]).to eq "=> 4\n"
   end
-
 
   it 'supports queries with cookie and console' do
     response = bridge.run_query!(query: 'x.m()',
