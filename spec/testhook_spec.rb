@@ -5,40 +5,24 @@ describe WollokTestHook do
 
   context 'no extra' do
     let(:result) {
-      hook.compile_program OpenStruct.new content: 'var x = 4', test: '
-        test "zaraza" {
-          /*...content...*/
-          assert.that(x === 4)
-        }'
+      hook.compile_program struct content: '', test: 'test "zaraza" {
+  var x = 4
+  assert.that(x === 4)
+}'
     }
 
-    it { expect(result).to eq '
+    it { expect(result).to eq 'object mumukiConsole {
+  method println(anObject) {
+     console.println(anObject)
+  }
+}
 
 
-        test "zaraza" {
-          var x = 4
-          assert.that(x === 4)
-        }
-'
-    }
-  end
 
-  context 'extra with flags' do
-    let(:result) {
-      hook.compile_program OpenStruct.new content: 'var x = 4', test: '
-        test "zaraza" {
-          /*...content...*/
-          assert.that(x === 4)
-        }', extra: '/*[IgnoreContentOnQuery]*/'
-    }
-
-    it { expect(result).to eq '/*[IgnoreContentOnQuery]*/
-
-
-        test "zaraza" {
-          var x = 4
-          assert.that(x === 4)
-        }
+test "zaraza" {
+  var x = 4
+  assert.that(x === 4)
+}
 '
     }
   end
