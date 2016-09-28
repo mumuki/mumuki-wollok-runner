@@ -113,6 +113,16 @@ describe 'Server' do
     expect(response[:result]).to eq 'true does not understand +(p0)'
   end
 
+  it 'supports queries with interpolations pass' do
+    response = bridge.run_query!(query: 'foo.x()',
+                                 extra: '/*[IgnoreContentOnQuery]*/ object foo { method x() = 5 }',
+                                 content: 'var x = 3',
+                                 expectations: [])
+
+    expect(response[:status]).to eq(:passed)
+    expect(response[:result]).to eq "=> 5\n"
+  end
+
   it 'answers a valid hash when submission passes' do
     response = bridge.run_tests!(test: %q{
 test "foo.bar() is 6" {
