@@ -1,11 +1,25 @@
 require 'rest-client'
 
+class WollokCookie < Mumukit::Cookie
+  private
+
+  def statements_code
+    statements.map { |statement| "try { #{statement} } catch e : Exception {  }" }.join("\n")
+  end
+
+  def stdout_separator_code
+    "console.println(\"#{stdout_separator}\")"
+  end
+end
+
 class WollokQueryHook < WollokHook
+  stateful_through WollokCookie
+
   def transform_response(response)
     if errored? response
       [extract_compilation_errors(response), :errored]
     elsif response['consoleOutput'].present?
-      [response['consoleOutput'], :passed]
+      [trim_cookie_output(response['consoleOutput']), :passed]
     elsif response['runtimeError'].present?
       [response['runtimeError']['message'], :failed]
     else
@@ -31,23 +45,13 @@ object mumukiPrettyPrinter {
 }
 
 object mumukiConsole {
-  var inCookie = false
-
-  method enterCookie() { inCookie = true }
-  method exitCookie() { inCookie = false }
-
   method println(anObject) {
-    if (!inCookie) {
-       console.println(anObject)
-    }
+     console.println(anObject)
   }
 }
 
 program mumuki {
-  mumukiConsole.enterCookie()
-  #{build_state(r.cookie)}
-  mumukiConsole.exitCookie()
-
+  #{build_cookie_code(r)}
   #{
     if %w(var const).any? { |it| r.query.strip.start_with? it }
       "#{r.query}\nmumukiPrettyPrinter.prettyPrint(void)"
@@ -59,7 +63,4 @@ program mumuki {
 WLK
   end
 
-  def build_state(cookie)
-    (cookie||[]).map { |statement| "try { #{statement} } catch e : Exception {  }" }.join("\n")
-  end
 end

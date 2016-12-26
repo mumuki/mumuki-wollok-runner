@@ -92,7 +92,7 @@ describe 'Server' do
                                  content: '',
                                  cookie: ['var x = 1', 'x += 2', 'error.throwWithMessage("foo")', 'x += 1'])
 
-    expect(response).to eq(:failed)
+    expect(response[:status]).to eq(:failed)
     expect(response[:result]).to eq "=> 4\n"
   end
 
