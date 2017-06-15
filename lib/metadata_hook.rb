@@ -2,7 +2,7 @@ class WollokMetadataHook < Mumukit::Hook
   def metadata
     {language: {
         name: 'wollok',
-        icon: {type: 'devicon', name: 'code'},
+        icon: {type: 'devicon', name: 'wollok'},
         version: '1.5',
         extension: 'wlk',
         ace_mode: 'wollok'
