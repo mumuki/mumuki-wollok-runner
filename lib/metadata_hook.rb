@@ -9,7 +9,14 @@ class WollokMetadataHook < Mumukit::Hook
     },
      test_framework: {
          name: 'builtin',
-         test_extension: 'wtest'
+         test_extension: 'wtest',
+         template: <<wollok
+describe "{{ test_template_group_description }}"{
+	test "{{ test_template_sample_description }}" {
+		assert.that(true)
+	}
+}
+wollok
      }}
   end
 end
