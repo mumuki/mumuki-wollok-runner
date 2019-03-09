@@ -42,7 +42,7 @@ describe 'Server' do
     response = bridge.run_query!(query: 'foo.bar', extra: 'object foo { }', content: '', expectations: [])
 
     expect(response[:status]).to eq(:errored)
-    expect(response[:result]).to eq "ERROR: no viable alternative at input ')'"
+    expect(response[:result]).to eq "ERROR: Bad message: bar)"
   end
 
   it 'supports queries that return void' do
@@ -110,7 +110,7 @@ describe 'Server' do
     response = bridge.run_query!(query: 'x.y() + 1', extra: '', content: 'object x { method y() = true }', expectations: [])
 
     expect(response[:status]).to eq(:failed)
-    expect(response[:result]).to eq 'true does not understand +(p0)'
+    expect(response[:result]).to eq 'true does not understand +(param1)'
   end
 
   it 'supports queries with interpolations pass' do
@@ -170,7 +170,7 @@ object foo {
 
     expect(response[:response_type]).to eq(:unstructured)
     expect(response[:status]).to eq(:errored)
-    expect(response[:result]).to eq "ERROR: missing EOF at 'tes'"
+    expect(response[:result]).to eq "ERROR: Bad structure: tes definition must be before object."
   end
 
   it 'answers a valid hash when submission has runtime errors' do
@@ -227,6 +227,6 @@ object foo {
                            status: :errored,
                            feedback: '',
                            expectation_results: [],
-                           result: "ERROR: missing '}' at 'test'\nERROR: Couldn't resolve reference to Referenciable 'asser'."
+                           result: "ERROR: Tests are not allowed in object definition.\nERROR: Couldn't resolve reference to Referenciable 'asser'."
   end
 end
