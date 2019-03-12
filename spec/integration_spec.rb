@@ -154,7 +154,7 @@ object foo {
     expect(response[:status]).to eq(:failed)
     expect(response[:test_results]).to eq [{title: 'foo.bar() is 6',
                                             status: :failed,
-                                            result: "wollok.lang.Exception: Expected [5] but found [6]\n\tat wollok.lib.assert.equals(expected,actual) [/lib.wlk:61]\n\tat  [__synthetic0.wtest]\n"}]
+                                            result: 'Expected [5] but found [6]'}]
   end
 
   it 'answers a valid hash when submission has compilation errors' do

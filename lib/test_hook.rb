@@ -15,7 +15,7 @@ class WollokTestHook < WollokHook
   end
 
   def transform_test_result(result)
-    [result['name'], result['state'] == 'passed' ? :passed : :failed, result['error'].try{|i|i['stackTrace']}]
+    [result['name'], result['state'] == 'passed' ? :passed : :failed, result['error'].try{|i|i['message']}]
   end
 
   def program_type
