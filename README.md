@@ -8,5 +8,7 @@
 RACK_ENV=development bundle exec rackup -p 4567
 ```
 
+# Wollok server
 
+This code depends on the Wollok server, currently hosted at server.wollok.org.
 
