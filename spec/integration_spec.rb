@@ -229,4 +229,16 @@ object foo {
                            expectation_results: [],
                            result: "ERROR: Tests are not allowed in object definition.\nERROR: Couldn't resolve reference to Referenciable 'asser'."
   end
+
+  it 'includes describe text in title when given' do
+    response = bridge.run_tests!(test: %q{
+describe "Numbers:" {
+  test "six equals six" {
+    assert.equals(6, 6)
+  }}}, extra: '', content: '', expectations: [])
+
+    expect(response[:response_type]).to eq(:structured)
+    expect(response[:status]).to eq(:passed)
+    expect(response[:test_results]).to eq [{title: 'Numbers: six equals six', status: :passed, result: nil}]
+  end
 end

@@ -4,7 +4,7 @@ class WollokTestHook < WollokHook
     if errored? result
       [extract_compilation_errors(result), :errored]
     elsif result['tests'].present?
-      [result['tests'].map { |it| transform_test_result(it) }]
+      [result['tests'].map { |it| transform_test_result(result, it) }]
     elsif result['runtimeErrors'].present?
       [result['runtimeErrors'].to_s, :failed]
     elsif result['consoleOutput'].present?
@@ -14,8 +14,12 @@ class WollokTestHook < WollokHook
     end
   end
 
-  def transform_test_result(result)
-    [result['name'], result['state'] == 'passed' ? :passed : :failed, result['error'].try{|i|i['message']}]
+  def transform_test_result(result, test_result)
+    [prefix_suite_if_given(result, test_result['name']), test_result['state'] == 'passed' ? :passed : :failed, test_result['error'].try{|i|i['message']}]
+  end
+
+  def prefix_suite_if_given(result, test_result)
+    (result['suite'].present? ? "#{result['suite']} " : "") + test_result
   end
 
   def program_type
