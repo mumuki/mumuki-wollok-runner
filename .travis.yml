@@ -4,7 +4,7 @@ env:
   matrix:
   - RACK_ENV=development
 rvm:
-- 2.3.1
+- 2.6.0
 deploy:
   provider: rubygems
   api_key:
