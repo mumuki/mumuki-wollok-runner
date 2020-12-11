@@ -1,3 +1,4 @@
+require_relative 'spec_helper'
 require 'active_support/all'
 require 'mumukit/bridge'
 
