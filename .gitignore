@@ -2,3 +2,4 @@
 **/*.class
 hs_*.log
 Gemfile.lock
+coverage
